@@ -83,6 +83,38 @@ function findSecondValue() {
 //To Start Interval Initially when user presses any key in answer box
 $("body").delegate("#answer-box", "keyup", function () {
   isStarted = true;
+
+  var answerEntered = $(this).val();
+  var answer = 0;
+  if (operatorUsed == "+") {
+    answer = Number(firstValue) + Number(secondValue);
+  } else if (operatorUsed == "-") {
+    answer = firstValue - secondValue;
+  } else if (operatorUsed == "*") {
+    answer = firstValue * secondValue;
+  } else if (operatorUsed == "/") {
+    answer = firstValue / secondValue;
+  }
+  if (answer == answerEntered) {
+    operatorUsed = findOperator();
+    firstValue = findFirstValue();
+    secondValue = findSecondValue();
+    displayValues(firstValue, secondValue, operatorUsed);
+    currentScore++;
+    if (currentScore > highScore) {
+      highScore = currentScore;
+    }
+    $("#current-score").html(currentScore);
+    $("#high-score").html(highScore);
+    $("#answer-box").val("");
+  } else {
+    if (currentScore > highScore) {
+      highScore = currentScore;
+    }
+    currentScore = 0;
+    $("#current-score").html(currentScore);
+    $("#high-score").html(highScore);
+  }
 });
 
 $("body").delegate("#limit", "change", function (e) {
